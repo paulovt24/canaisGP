@@ -1,4 +1,5 @@
 import * as db from '../repository/canalRepository.js'
+import * as serv from '../service/canalService.js'
 
 import { Router } from 'express'
 const endpoint= Router()
@@ -32,7 +33,7 @@ endpoint.post('/canal/adicionar', async (req,resp) =>{
     try {    
     let info= req.body
 
-    let id= await db.InserirCanal(info)
+    let id= await serv.SalvarCanal(info)
     resp.send({
 
     novoId: id

@@ -1,4 +1,5 @@
 import * as db from '../repository/usuarioRepository.js'
+import * as serv from '../service/usuarioService.js'
 
 import { Router } from 'express'
 const endpoint= Router()
@@ -33,7 +34,7 @@ endpoint.post('/usuario/adicionar', async (req,resp) =>{
         
     let info= req.body
 
-    let id= await db.InserirUsuario(info)
+    let id= await serv.SalvarUsuario(info)
     resp.send({
 
     novoId: id
@@ -54,8 +55,7 @@ endpoint.post('/usuario/adicionar', async (req,resp) =>{
     }
     
     })
-
-
+    
     endpoint.put('/usuario/alterar/:id', async (req,resp) =>{
 
         try {

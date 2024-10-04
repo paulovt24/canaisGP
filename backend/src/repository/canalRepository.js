@@ -18,6 +18,23 @@ return registros;
 
 }
 
+export async function ConsultarCanalPorNome(canal){
+
+    const comando= `
+     
+                select  nm_canal    canal,
+                        nr_canal    numero,
+                        bt_aberto   aberto
+                from tb_canal
+                where nm_canal=?;
+    `
+    
+    let resposta= await con.query (comando, [canal])
+    let registros= resposta[0]
+    return registros;
+    
+    }
+
 
 export async function InserirCanal(info){
 
