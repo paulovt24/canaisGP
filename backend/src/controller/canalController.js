@@ -1,15 +1,18 @@
 import * as db from '../repository/canalRepository.js'
 import * as serv from '../service/canalService.js'
+import { autenticar } from '../utils/jwt.js'
 
 import { Router } from 'express'
 const endpoint= Router()
 
 
-endpoint.get('/canal/', async (req,resp) =>{
+endpoint.get('/canal/', autenticar, async (req,resp) =>{
 
 try {
     
-let registros= await db.ConsultarCanal()
+
+    let idUsuario= req.user.id;
+let registros= await db.ConsultarCanal(idUsuario)
 resp.send(registros)
 
 } 
@@ -28,7 +31,7 @@ catch (err) {
 })
 
 
-endpoint.post('/canal/adicionar', async (req,resp) =>{
+endpoint.post('/canal/adicionar',autenticar, async (req,resp) =>{
 
     try {    
     let info= req.body
@@ -56,11 +59,11 @@ endpoint.post('/canal/adicionar', async (req,resp) =>{
     })
 
 
-    endpoint.put('/canal/alterar/:id', async (req,resp) =>{
+    endpoint.put('/canal/alterar/:id', autenticar, async (req,resp) =>{
 
         try {
 
-            let id= req.params.id
+            let idUsuario= req.user.id
             let info= req.body
             
         let linhasAfetadas= await db.AlterarCanal(id, info)

@@ -1,3 +1,5 @@
+import { gerarToken } from '../utils/jwt.js'
+
 import * as db from '../repository/usuarioRepository.js'
 import * as serv from '../service/usuarioService.js'
 
@@ -5,12 +7,28 @@ import { Router } from 'express'
 const endpoint= Router()
 
 
-endpoint.get('/usuario', async (req,resp) =>{
+endpoint.get('/usuario/entrar', async (req,resp) =>{
 
 try {
     
-let registros= await db.ConsultarUsuario()
-resp.send(registros)
+
+    let pessoa= req.body
+    let usuario= await db.ValidarUsuario(pessoa)
+
+    if (usuario== null) {
+        
+resp.send({ erro: 'Usuario ou senha incorreto' })
+    }
+     else {
+        
+     let token= gerarToken(usuario)
+
+     resp.send({
+
+       "token": token
+     })
+    }
+
 
 } 
 
